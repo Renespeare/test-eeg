@@ -2,6 +2,9 @@ import { WS_URL } from "../config/config";
 
 export async function connectMuse(museRef, setStatus, wsRef) {
   try {
+    // enable ppg
+    museRef.current.enablePpg = true;
+
     await museRef.current.connect();
     await museRef.current.start();
     setStatus(true);
