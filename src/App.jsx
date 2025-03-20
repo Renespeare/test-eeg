@@ -1,29 +1,17 @@
-import { MuseClient } from "muse-js";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import MuseComponent from "./components/MuseComponent";
+import MuseDummyComponent from "./components/MuseDummyComponent";
 
-function App() {
-  const muse = new MuseClient();
-  const [status, setStatus] = useState(false);
-
-  const onConnectButtonClick = async () => {
-    await muse.connect();
-    muse.start();
-  };
-
-  useEffect(() => {
-    muse.connectionStatus.subscribe((newStatus) => {
-      console.log(newStatus);
-    });
-    return () => {
-      muse.disconnect();
-    };
-  }, []);
+export default function App() {
+  const [useDummy, setUseDummy] = useState(true);
 
   return (
     <div>
-      <button onClick={onConnectButtonClick}>Connect</button>
+      <h1>Muse Streaming App</h1>
+      <button onClick={() => setUseDummy((prev) => !prev)}>
+        Switch to {useDummy ? "Real" : "Dummy"} Mode
+      </button>
+      {useDummy ? <MuseDummyComponent /> : <MuseComponent />}
     </div>
   );
 }
-
-export default App;
